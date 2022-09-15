@@ -17,7 +17,7 @@ server.listen(3000, () => console.log('Server is started'));
 
 server.use(express.json());
 
-server.use('/api/user', userRouter);
+server.use('/api/users', userRouter);
 server.use('/api/auth', authRouter);
 server.use('/api/product', productRouter);
 server.use('/api/order', orderRouter);
