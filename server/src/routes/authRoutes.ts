@@ -1,9 +1,8 @@
 import express from 'express';
+import { createUser } from '../services/authServices';
 
 const authRouter = express.Router();
 
-authRouter.route('/auth').get((req, res) => {
-  res.send('Auth');
-});
+authRouter.route('/register').post(createUser);
 
 export default authRouter;

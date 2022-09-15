@@ -16,11 +16,9 @@ dataBaseConnection(process.env.MONGO_URL || 'Your DB URL');
 server.listen(3000, () => console.log('Server is started'));
 
 server.use(express.json());
-server.use(
-  '/api',
-  userRouter,
-  productRouter,
-  orderRouter,
-  cardRouter,
-  authRouter
-);
+
+server.use('/api/user', userRouter);
+server.use('/api/auth', authRouter);
+server.use('/api/product', productRouter);
+server.use('/api/order', orderRouter);
+server.use('/api/card', cardRouter);
