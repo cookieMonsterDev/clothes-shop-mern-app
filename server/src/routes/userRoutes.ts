@@ -1,9 +1,10 @@
 import express from 'express';
-import { protection } from '../services/middleware/authMiddleware';
-import { updateUser } from '../services/userServices';
+import { protection } from '../controls/middleware/authMiddleware';
+import { deleteUser, updateUser } from '../controls/services/userServices';
 
 const userRouter = express.Router();
 
-userRouter.route('/:id').delete(protection, updateUser);
+userRouter.route('/:id').put(protection, updateUser)
+userRouter.route('/:id').delete(protection, deleteUser);
 
 export default userRouter;
