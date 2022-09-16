@@ -6,6 +6,7 @@ import productRouter from './routes/productRoutes';
 import orderRouter from './routes/orderRoutes';
 import cardRouter from './routes/cardRoutes';
 import authRouter from './routes/authRoutes';
+import errorHandler from './controls/middleware/errorsMiddleware';
 
 dotenv.config();
 
@@ -22,3 +23,5 @@ server.use('/api/auth', authRouter);
 server.use('/api/product', productRouter);
 server.use('/api/order', orderRouter);
 server.use('/api/card', cardRouter);
+
+server.use(errorHandler);
