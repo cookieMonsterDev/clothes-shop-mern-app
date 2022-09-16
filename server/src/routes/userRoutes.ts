@@ -1,10 +1,10 @@
 import express from 'express';
-import { protection } from '../controls/middleware/authMiddleware';
-import { deleteUser, updateUser } from '../controls/services/userServices';
+import { verifyTokenAndAuthorization } from '../controls/middleware/authMiddleware';
+import { deleteUserControl, updateUserControl } from '../controls/userControls';
 
 const userRouter = express.Router();
 
-userRouter.route('/:id').put(protection, updateUser)
-userRouter.route('/:id').delete(protection, deleteUser);
+userRouter.route('/:id').put(verifyTokenAndAuthorization, updateUserControl)
+userRouter.route('/:id').delete(verifyTokenAndAuthorization, deleteUserControl);
 
 export default userRouter;

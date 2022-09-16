@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { userModel } from '../../models/models';
+import HttpErrors from '../errorHandling/httpErrors';
 
 //Update user
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUserService = async (req: Request, res: Response) => {
   try {
     const user = await userModel.findByIdAndUpdate(req.user._id);
     res.json(user);
@@ -12,11 +13,13 @@ export const updateUser = async (req: Request, res: Response) => {
 };
 
 //Delete user
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUserService = async (userId: string): Promise<void> => {
   try {
-    const user = await userModel.findByIdAndDelete(req.user._id);
-    res.json(user);
+    const user = await userModel.findByIdAndDelete(userId);
+    if (!user) throw new HttpErrors(`User not found`, 404);
+
+    return;
   } catch (err) {
-    res.status(500).json('User not found');
+    throw new HttpErrors(`Operation failed: ${err.message}`, 401);
   }
 };

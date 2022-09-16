@@ -1,22 +1,9 @@
 import CryptoJS from 'crypto-js';
 import { userModel } from '../../models/models';
 import HttpErrors from '../errorHandling/httpErrors';
-import { generateToken } from '../middleware/tokenOperations';
+import { generateToken } from '../middleware/authMiddleware';
+import { AuthUserTypes, ReturnUserTypes } from './types/types';
 import verifyInputUser from './validation/validateDuplicates';
-
-export interface AuthUserTypes {
-  username?: string;
-  email: string;
-  password: string;
-}
-
-export interface ReturnUserTypes {
-  _id: string;
-  username: string | undefined;
-  email: string | undefined;
-  isAdmin: boolean | undefined;
-  token: string;
-}
 
 const key = process.env.SECRET_KEY_1 || 'Your secret key';
 
