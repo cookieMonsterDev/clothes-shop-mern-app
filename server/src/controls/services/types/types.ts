@@ -9,5 +9,5 @@ export interface ReturnUserTypes {
   username: string | undefined;
   email: string | undefined;
   isAdmin: boolean | undefined;
-  token: string;
+  token?: string;
 };

@@ -25,7 +25,7 @@ export const updateUserService = async (
       { new: true }
     );
 
-    if(!updatedUser) throw new HttpErrors(`User is found`, 404);
+    if (!updatedUser) throw new HttpErrors(`User is found`, 404);
 
     const accessTocken = generateToken({
       _id: updatedUser!._id.toString(),
@@ -53,6 +53,46 @@ export const deleteUserService = async (userId: string): Promise<void> => {
     if (!user) throw new HttpErrors(`User not found`, 404);
 
     return;
+  } catch (err) {
+    throw new HttpErrors(`Operation failed: ${err.message}`, 401);
+  }
+};
+
+//Get user
+export const findUserService = async (
+  userId: string
+): Promise<ReturnUserTypes> => {
+  try {
+    const user = await userModel.findById(userId);
+    if (!user) throw new HttpErrors(`User not found`, 404);
+
+    return {
+      _id: user._id.toString(),
+      username: user.username,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    };
+  } catch (err) {
+    throw new HttpErrors(`Operation failed: ${err.message}`, 401);
+  }
+};
+
+//Get all users
+export const findAllUserService = async (): Promise<ReturnUserTypes[]> => {
+  try {
+    const users = await userModel.find();
+    if (!users) throw new HttpErrors(`Users not found`, 404);
+
+    let newArr: ReturnUserTypes[] = users.map((item) => {
+      return {
+        _id: item._id.toString(),
+        username: item.username,
+        email: item.email,
+        isAdmin: item.isAdmin,
+      };
+    });
+
+    return newArr;
   } catch (err) {
     throw new HttpErrors(`Operation failed: ${err.message}`, 401);
   }
