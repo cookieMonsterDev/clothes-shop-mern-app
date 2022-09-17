@@ -1,14 +1,48 @@
-import { Request, Response } from 'express';
+import CryptoJS from 'crypto-js';
 import { userModel } from '../../models/models';
 import HttpErrors from '../errorHandling/httpErrors';
+import { generateToken } from '../middleware/authMiddleware';
+import { AuthUserTypes, ReturnUserTypes } from './types/types';
+import verifyInputUser from './validation/validateDuplicates';
+
+const key = process.env.SECRET_KEY_1 || 'Your secret key';
 
 //Update user
-export const updateUserService = async (req: Request, res: Response) => {
+export const updateUserService = async (
+  id: string,
+  body: AuthUserTypes
+): Promise<ReturnUserTypes> => {
+  const newBody = await verifyInputUser(body);
+
+  const hashedPassword = CryptoJS.AES.encrypt(newBody.password, key).toString();
+
+  const { password, ...other } = newBody;
+
   try {
-    const user = await userModel.findByIdAndUpdate(req.user._id);
-    res.json(user);
+    const updatedUser = await userModel.findByIdAndUpdate(
+      id,
+      { $set: { hashedPassword, ...other } },
+      { new: true }
+    );
+
+    if(!updatedUser) throw new HttpErrors(`User is found`, 404);
+
+    const accessTocken = generateToken({
+      _id: updatedUser!._id.toString(),
+      username: updatedUser?.username,
+      email: updatedUser?.email,
+      isAdmin: updatedUser?.isAdmin,
+    });
+
+    return {
+      _id: updatedUser._id.toString(),
+      username: updatedUser.username,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: accessTocken,
+    };
   } catch (err) {
-    res.json('Sth wend wrong');
+    throw new HttpErrors(`Failed to update user: ${err.message}`, 401);
   }
 };
 

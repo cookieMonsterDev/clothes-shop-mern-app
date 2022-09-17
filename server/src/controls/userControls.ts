@@ -1,12 +1,11 @@
 import { Request, Response } from 'express';
 import expressAsyncHandler from 'express-async-handler';
-
-import { deleteUserService } from './services/userServices';
+import { deleteUserService, updateUserService } from './services/userServices';
 
 export const updateUserControl = expressAsyncHandler(
   async (req: Request, res: Response) => {
-    // const user = await registerUserService(req.body);
-    // res.status(201).json(user);
+    const user = await updateUserService(req.params.id, req.body);
+    res.status(201).json(user);
   }
 );
 

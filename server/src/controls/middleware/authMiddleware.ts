@@ -16,7 +16,7 @@ export const generateToken = (user: UserPayload): string => {
   return JWT.sign(user, jwtKey, { expiresIn: '1h' });
 };
 
-export const verifyToken = async (req: Request, res: Response) => {
+const verifyToken = async (req: Request, res: Response) => {
   try {
     if (
       !req.headers ||
@@ -40,6 +40,21 @@ export const verifyTokenAndAuthorization = expressAsyncHandler(
       await verifyToken(req, res);
 
       if (!(req.user._id === req.params.id || req.user.isAdmin))
+        throw new HttpErrors(`Forbidden`, 403);
+
+      next();
+    } catch (err) {
+      throw new HttpErrors(`Access denied: ${err.message}`, 403);
+    }
+  }
+);
+
+export const verifyTokenAndAdmin = expressAsyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await verifyToken(req, res);
+
+      if (!req.user.isAdmin)
         throw new HttpErrors(`Forbidden`, 403);
 
       next();
