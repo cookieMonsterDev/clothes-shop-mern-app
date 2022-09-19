@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 
-const CardSchema = new Schema(
+const CartSchema = new Schema(
   {
     userid: {
       type: String,
@@ -21,4 +21,4 @@ const CardSchema = new Schema(
   { timestamps: true }
 );
 
-export default CardSchema;
+export default CartSchema;
