@@ -6,5 +6,4 @@ export interface ProductTypes {
   size?: string;
   color?: string;
   price?: number;
-};
-
+}

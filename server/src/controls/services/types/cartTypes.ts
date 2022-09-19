@@ -5,5 +5,5 @@ export interface CartTypes {
       productId: string;
       quantity: number;
     }
-  ],
+  ];
 }

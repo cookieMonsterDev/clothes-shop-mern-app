@@ -4,8 +4,8 @@ export interface OrderTypes {
     {
       productId?: string;
       quantity?: number;
-    },
-  ],
+    }
+  ];
   amount?: number;
   address?: any;
   status?: string;

@@ -1,6 +1,6 @@
-import { userModel } from "../../../models/models";
-import HttpErrors from "../../errorHandling/httpErrors";
-import { AuthUserTypes } from "../types/userTypes";
+import { userModel } from '../../../models/models';
+import HttpErrors from '../../errorHandling/httpErrors';
+import { AuthUserTypes } from '../types/userTypes';
 
 const verifyInputUser = async (body: AuthUserTypes): Promise<AuthUserTypes> => {
   try {

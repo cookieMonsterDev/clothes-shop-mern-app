@@ -34,7 +34,11 @@ export const verifyToken = async (req: Request, res: Response) => {
   }
 };
 
-export const verifyTokenG = async (req: Request, res: Response, next: NextFunction) => {
+export const verifyTokenG = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     if (
       !req.headers ||
@@ -73,8 +77,7 @@ export const verifyTokenAndAdmin = expressAsyncHandler(
     try {
       await verifyToken(req, res);
 
-      if (!req.user.isAdmin)
-        throw new HttpErrors(`Forbidden`, 403);
+      if (!req.user.isAdmin) throw new HttpErrors(`Forbidden`, 403);
 
       next();
     } catch (err) {

@@ -1,6 +1,6 @@
-import { cartModel } from "../../models/models";
-import HttpErrors from "../errorHandling/httpErrors";
-import { CartTypes } from "./types/cartTypes";
+import { cartModel } from '../../models/models';
+import HttpErrors from '../errorHandling/httpErrors';
+import { CartTypes } from './types/cartTypes';
 
 //Create cart
 export const createCartService = async (body: CartTypes) => {

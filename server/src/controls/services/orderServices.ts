@@ -1,6 +1,6 @@
-import { orderModel } from "../../models/models";
-import HttpErrors from "../errorHandling/httpErrors";
-import { OrderTypes } from "./types/orderTypes";
+import { orderModel } from '../../models/models';
+import HttpErrors from '../errorHandling/httpErrors';
+import { OrderTypes } from './types/orderTypes';
 
 //Create order
 export const createOrderService = async (body: OrderTypes): Promise<any> => {
@@ -8,12 +8,12 @@ export const createOrderService = async (body: OrderTypes): Promise<any> => {
 
   try {
     const order = await newOrder.save();
-    
-  return {order}
+
+    return { order };
   } catch (err) {
     throw new HttpErrors(`Failed to create order: ${err.message}`, 401);
   }
-}
+};
 
 //Update order
 export const updateOrderService = async (id: string, body: OrderTypes) => {
@@ -29,7 +29,7 @@ export const updateOrderService = async (id: string, body: OrderTypes) => {
   } catch (err) {
     throw new HttpErrors(`Failed to update order: ${err.message}`, 401);
   }
-}
+};
 
 //Delete order
 export const deleteOrderService = async (id: string): Promise<void> => {
@@ -40,7 +40,7 @@ export const deleteOrderService = async (id: string): Promise<void> => {
   } catch (err) {
     throw new HttpErrors(`Operation failed: ${err.message}`, 401);
   }
-}
+};
 
 //Get user order
 export const getOrderService = async (userId: string) => {
@@ -51,7 +51,7 @@ export const getOrderService = async (userId: string) => {
   } catch (err) {
     throw new HttpErrors(`Operation failed: ${err.message}`, 401);
   }
-}
+};
 
 //Get all orders
 export const getAllOrdersService = async () => {
@@ -62,4 +62,4 @@ export const getAllOrdersService = async () => {
   } catch (err) {
     throw new HttpErrors(`Operation failed: ${err.message}`, 401);
   }
-}
+};

@@ -1,12 +1,12 @@
-import { Request, Response } from "express";
-import expressAsyncHandler from "express-async-handler";
+import { Request, Response } from 'express';
+import expressAsyncHandler from 'express-async-handler';
 import {
   createOrderService,
   deleteOrderService,
   getAllOrdersService,
   getOrderService,
   updateOrderService,
-} from "./services/orderServices";
+} from './services/orderServices';
 
 export const createOrderControl = expressAsyncHandler(
   async (req: Request, res: Response) => {
