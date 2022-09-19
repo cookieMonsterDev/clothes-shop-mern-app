@@ -90,18 +90,15 @@ export const getAllProductsService = async (
   query?: string
 ): Promise<ProductTypes[]> => {
   try {
+    let products;
 
-    let products; 
-
-    if(!query) {
-      products = await productModel.find()
-    } else {
-      products = await productModel.find({
-        categories: {
-          $in: [query]
-        }
-      });
-    }
+    !query
+      ? (products = await productModel.find())
+      : (products = await productModel.find({
+          categories: {
+            $in: [query],
+          },
+        }));
 
     if (!products) throw new HttpErrors(`Product not found`, 404);
 
