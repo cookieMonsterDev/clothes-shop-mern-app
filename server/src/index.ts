@@ -7,6 +7,7 @@ import orderRouter from './routes/orderRoutes';
 import authRouter from './routes/authRoutes';
 import errorHandler from './controls/middleware/errorsMiddleware';
 import cartRouter from './routes/cartRoutes';
+import stripeRouter from './routes/stripe';
 
 dotenv.config();
 
@@ -24,7 +25,8 @@ server.use(
   authRouter,
   productRouter,
   cartRouter,
-  orderRouter
+  orderRouter,
+  stripeRouter
 );
 
 server.use(errorHandler);
