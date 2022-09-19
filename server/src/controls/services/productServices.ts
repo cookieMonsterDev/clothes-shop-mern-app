@@ -87,14 +87,22 @@ export const getProductService = async (id: string): Promise<ProductTypes> => {
 
 //Get all products
 export const getAllProductsService = async (
-  query: string
+  query?: string
 ): Promise<ProductTypes[]> => {
   try {
-    const products = await productModel.find({
-      categories: {
-        $in: [query]
-      }
-    });
+
+    let products; 
+
+    if(!query) {
+      products = await productModel.find()
+    } else {
+      products = await productModel.find({
+        categories: {
+          $in: [query]
+        }
+      });
+    }
+
     if (!products) throw new HttpErrors(`Product not found`, 404);
 
     let newArr: ProductTypes[] = products.map((item) => {
