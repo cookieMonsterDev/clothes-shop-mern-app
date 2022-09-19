@@ -20,7 +20,7 @@ server.use(express.json());
 
 server.use('/api', userRouter);
 server.use('/api', authRouter);
-server.use('/api/product', productRouter);
+server.use('/api', productRouter);
 server.use('/api/order', orderRouter);
 server.use('/api/card', cardRouter);
 

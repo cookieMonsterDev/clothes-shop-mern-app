@@ -16,7 +16,7 @@ export const generateToken = (user: UserPayload): string => {
   return JWT.sign(user, jwtKey, { expiresIn: '1h' });
 };
 
-const verifyToken = async (req: Request, res: Response) => {
+export const verifyToken = async (req: Request, res: Response) => {
   try {
     if (
       !req.headers ||

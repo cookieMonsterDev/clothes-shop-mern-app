@@ -2,7 +2,7 @@ import CryptoJS from 'crypto-js';
 import { userModel } from '../../models/models';
 import HttpErrors from '../errorHandling/httpErrors';
 import { generateToken } from '../middleware/authMiddleware';
-import { AuthUserTypes, ReturnUserTypes } from './types/types';
+import { AuthUserTypes, ReturnUserTypes } from './types/userTypes';
 import verifyInputUser from './validation/validateDuplicates';
 
 const key = process.env.SECRET_KEY_1 || 'Your secret key';
