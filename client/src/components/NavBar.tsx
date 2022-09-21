@@ -34,7 +34,7 @@ const NavBar = () => {
 export default NavBar;
 
 const Container = styled.div`
-  height: 60px;
+  height: auto;
 `;
 
 const Wrapper = styled.div`
