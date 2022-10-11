@@ -1,12 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import NavBar from '../components/NavBar';
 import Announcements from '../components/Announcements';
 import Products from '../components/Products';
 import NewsLetter from '../components/NewsLetter';
 import Footer from '../components/Footer';
+import { useLocation } from 'react-router-dom';
+
+interface FilterProps {
+  color: string;
+  size: string;
+}
 
 const ProductList = () => {
+  const location = useLocation();
+
+  const category = location.pathname.split('/')[2];
+
+  const [filters, setFilters] = useState<FilterProps>({
+    color: '',
+    size: '',
+  });
+
+  const [sort, setSort] = useState('newest');
+
+  const handleFilters = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setFilters({
+      ...filters,
+      [e.target.name]: value,
+    });
+  };
+
+  const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSort(e.target.value);
+  };
+
   return (
     <Container>
       <Announcements />
@@ -15,10 +44,7 @@ const ProductList = () => {
       <FilterContainer>
         <Filter>
           <FilterText>Filter Products</FilterText>
-          <Select>
-            <Oprtion disabled selected>
-              Color
-            </Oprtion>
+          <Select defaultValue={'Color'} onChange={handleFilters} name="color">
             <Oprtion>White</Oprtion>
             <Oprtion>Black</Oprtion>
             <Oprtion>Red</Oprtion>
@@ -26,10 +52,8 @@ const ProductList = () => {
             <Oprtion>Yellow</Oprtion>
             <Oprtion>Green</Oprtion>
           </Select>
-          <Select>
-            <Oprtion disabled selected>
-              Size
-            </Oprtion>
+          <Select defaultValue={'Size'} onChange={handleFilters} name="size">
+            <Oprtion disabled>Size</Oprtion>
             <Oprtion>XS</Oprtion>
             <Oprtion>S</Oprtion>
             <Oprtion>M</Oprtion>
@@ -39,14 +63,14 @@ const ProductList = () => {
         </Filter>
         <Filter>
           <FilterText>Sort Products</FilterText>
-          <Select>
-            <Oprtion selected>Newest</Oprtion>
-            <Oprtion>Price (asc)</Oprtion>
-            <Oprtion>Price (dece)</Oprtion>
+          <Select defaultValue={'Newest'} onChange={handleSort} name="sort">
+            <Oprtion value={'newest'}>Newest</Oprtion>
+            <Oprtion value={'asc'}>Price (asc)</Oprtion>
+            <Oprtion value={'dece'}>Price (dece)</Oprtion>
           </Select>
         </Filter>
       </FilterContainer>
-      <Products />
+      <Products category={category} filters={filters} sort={sort}/>
       <NewsLetter />
       <Footer />
     </Container>
