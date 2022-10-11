@@ -16,9 +16,10 @@ const Products = (props: ProductsProps) => {
   
   useEffect(() => {
     const fetchData = async () => {
-     const a = await fetch("http://localhost:5000/api/products/");
+     const a = await fetch(`http://localhost:5000/api/products?category=${props.category}`);
      const at = await a.json();
      console.log(at); 
+     setProducts(at)
     } 
 
     fetchData()
@@ -26,7 +27,7 @@ const Products = (props: ProductsProps) => {
 
   return (
     <Container>
-      {popularProducts.map((item, key) => (
+      {products.map((item: any, key) => (
         <Product {...item} key={key} />
       ))}
     </Container>
