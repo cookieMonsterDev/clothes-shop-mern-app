@@ -12,6 +12,7 @@ export const createProductService = async (
     const product = await newProduct.save();
 
     return {
+      id: product.id,
       title: product.title,
       disc: product.disc,
       img: product.img,
@@ -40,6 +41,7 @@ export const updateProductService = async (
     if (!product) throw new HttpErrors(`Product not found`, 404);
 
     return {
+      id: product.id,
       title: product.title,
       disc: product.disc,
       img: product.img,
@@ -72,6 +74,7 @@ export const getProductService = async (id: string): Promise<ProductTypes> => {
     if (!product) throw new HttpErrors(`Product not found`, 404);
 
     return {
+      id: product.id,
       title: product.title,
       disc: product.disc,
       img: product.img,
@@ -104,6 +107,7 @@ export const getAllProductsService = async (
 
     let newArr: ProductTypes[] = products.map((item) => {
       return {
+        id: item.id,
         title: item.title,
         disc: item.disc,
         img: item.img,

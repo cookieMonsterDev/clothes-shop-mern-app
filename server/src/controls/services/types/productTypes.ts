@@ -1,4 +1,5 @@
 export interface ProductTypes {
+  id?: string;
   title?: string;
   disc?: string;
   img?: string;

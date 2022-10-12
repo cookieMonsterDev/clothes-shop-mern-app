@@ -1,6 +1,7 @@
 import { Badge } from '@material-ui/core';
-import { Search,  ShoppingCartOutlined } from '@material-ui/icons';
+import { Search, ShoppingCartOutlined } from '@material-ui/icons';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   return (
@@ -10,11 +11,13 @@ const NavBar = () => {
           <Lang>EN</Lang>
           <SearchConateiner>
             <Input />
-            <Search style={{color: "gray", fontSize: "16px"}}/>
+            <Search style={{ color: 'gray', fontSize: '16px' }} />
           </SearchConateiner>
         </Left>
         <Center>
-          <Logo>Mykhailo Shop</Logo>
+          <Link to="/">
+            <Logo>Mykhailo Shop</Logo>
+          </Link>
         </Center>
         <Right>
           <MenuItem>REGISTER</MenuItem>
@@ -34,6 +37,14 @@ export default NavBar;
 
 const Container = styled.div`
   height: auto;
+
+  a {
+    text-decoration: none;
+  }
+
+  a:visited {
+    color: black;
+  }
 `;
 
 const Wrapper = styled.div`

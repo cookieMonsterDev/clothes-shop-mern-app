@@ -1,29 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { popularProducts } from '../data';
 import Product from './Product';
 
 interface ProductsProps {
   category?: string;
-  filters?: object; 
+  filters?: object;
   sort?: string;
 }
 
 const Products = (props: ProductsProps) => {
-  
   const [products, setProducts] = useState([]);
-  const [FilteredProducts, setFilteredProducts] = useState([]);
-  
+
   useEffect(() => {
     const fetchData = async () => {
-     const a = await fetch(`http://localhost:5000/api/products?category=${props.category}`);
-     const at = await a.json();
-     console.log(at); 
-     setProducts(at)
-    } 
+      try {
+        const res = await axios.get(
+          props.category 
+          ? `http://localhost:5000/api/products?category=${props.category}`
+          : `http://localhost:5000/api/products`
+        );
+        setProducts(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-    fetchData()
-  }, [props.category])
+    fetchData();
+  }, [props.category]);
+
+  console.log(products)
 
   return (
     <Container>

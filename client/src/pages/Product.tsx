@@ -1,58 +1,100 @@
 import { Add, Remove } from '@material-ui/icons';
-import React from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Announcements from '../components/Announcements';
 import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
 import NewsLetter from '../components/NewsLetter';
+import { useLocation } from 'react-router-dom';
+import { publicRequest } from '../requestMethods'
 
 interface FilterProps {
   theColor?: string;
 }
 
+interface ProductProps {
+  id?: string;
+  title?: string;
+  disc?: string; 
+  img?: string;
+  categories?: string[];
+  size?: string;
+  color?: string;
+  price?: number;
+}
+
 const Product = () => {
+  const [product, setProduct] = useState<ProductProps>({});
+  const location = useLocation();
+  const [quantity, setQuantity] = useState(1);
+
+  const handleQuantity = (dir: string) => {
+    if (dir === 'dec' && quantity !== 1) {
+      setQuantity(quantity => quantity - 1)
+    }
+
+    if(dir === 'inc') {
+      setQuantity(quantity => quantity + 1)
+    }
+  }
+
+
+  const productId = location.pathname.split('/')[2];
+
+  useEffect(() => {
+    const getProductData = async () => {
+      try {
+        const res = await publicRequest.get(
+          `products/${productId}`
+        );
+      setProduct(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getProductData();
+  }, [productId]);
+
+  console.log(product);
+
   return (
     <Container>
       <Announcements />
       <NavBar />
       <Wrapper>
         <ImageContainer>
-          <Image src="https://i.ibb.co/S6qMxwr/jean.jpg" />
+          <Image src={product.img} />
         </ImageContainer>
         <InfoContainer>
-          <Title>Something inters</Title>
+          <Title>{product.title}</Title>
           <Desc>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Repudiandae maxime, ex placeat similique nihil tenetur sit iusto
-            sunt cupiditate beatae enim? Minus ullam nemo consectetur eveniet ab
+            {product.disc}
           </Desc>
-          <Price>$ 20</Price>
+          <Price>$ {product.price}</Price>
           <FilterContainer>
-        <Filter>
-          <FilterTitle>Color</FilterTitle>
-          <FilterColor theColor='black'/> 
-          <FilterColor theColor='darkblue'/>
-          <FilterColor theColor='gray'/>
-        </Filter>
-        <Filter>
-          <FilterTitle>Size</FilterTitle>
-          <FilterSize>
-            <FilterSizeOption>XS</FilterSizeOption>
-            <FilterSizeOption>S</FilterSizeOption>
-            <FilterSizeOption>M</FilterSizeOption>
-            <FilterSizeOption>L</FilterSizeOption>
-            <FilterSizeOption>XL</FilterSizeOption>
-          </FilterSize>
-        </Filter>
-      </FilterContainer>
-      <AddContainer>
-        <AmountContainer>
-          <Remove />
-          <Amount>1</Amount>
-          <Add />
-        </AmountContainer>
-        <Button>ADD TO CART</Button>
-      </AddContainer>
+            <Filter>
+              <FilterTitle>Color</FilterTitle>
+              <FilterColor theColor={product.color} />
+            </Filter>
+            <Filter>
+              <FilterTitle>Size</FilterTitle>
+              <FilterSize>
+                <FilterSizeOption>XS</FilterSizeOption>
+                <FilterSizeOption>S</FilterSizeOption>
+                <FilterSizeOption>M</FilterSizeOption>
+                <FilterSizeOption>L</FilterSizeOption>
+                <FilterSizeOption>XL</FilterSizeOption>
+              </FilterSize>
+            </Filter>
+          </FilterContainer>
+          <AddContainer>
+            <AmountContainer>
+              <Remove onClick={() => handleQuantity('dec')}/>
+              <Amount>{quantity}</Amount>
+              <Add onClick={() => handleQuantity('inc')}/>
+            </AmountContainer>
+            <Button>ADD TO CART</Button>
+          </AddContainer>
         </InfoContainer>
       </Wrapper>
       <NewsLetter />
@@ -103,48 +145,46 @@ const FilterContainer = styled.div`
   margin: 30px 0;
   display: flex;
   justify-content: space-between;
-`
+`;
 
 const Filter = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
 const FilterTitle = styled.span`
   font-size: 20px;
   font-weight: 200;
-`
+`;
 
 const FilterColor = styled.div<FilterProps>`
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: ${({theColor}) => theColor};
+  background-color: ${({ theColor }) => theColor};
   margin: 0 5px;
   cursor: pointer;
-`
+`;
 
 const FilterSize = styled.select`
   margin-left: 20px;
   padding: 5px;
-`
+`;
 
-const FilterSizeOption = styled.option`
-  
-`
+const FilterSizeOption = styled.option``;
 
 const AddContainer = styled.div`
   display: flex;
-  align-items:center;
-  justify-content:space-between;
+  align-items: center;
+  justify-content: space-between;
   width: 50%;
-`
+`;
 
 const AmountContainer = styled.div`
   display: flex;
   align-items: center;
   font-weight: 700;
-`
+`;
 
 const Amount = styled.span`
   width: 30px;
@@ -155,7 +195,7 @@ const Amount = styled.span`
   align-items: center;
   justify-content: center;
   margin: 0 5px;
-`
+`;
 
 const Button = styled.button`
   padding: 15px;
@@ -167,4 +207,4 @@ const Button = styled.button`
   &:hover {
     background-color: #f8f4f4;
   }
-`
+`;

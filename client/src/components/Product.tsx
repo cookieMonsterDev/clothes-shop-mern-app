@@ -4,6 +4,7 @@ import {
   ShoppingCartOutlined,
 } from '@material-ui/icons';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 interface ProductProps {
   id: number;
@@ -20,7 +21,9 @@ const Product = (props: ProductProps) => {
           <ShoppingCartOutlined />
         </Icon>
         <Icon>
+          <Link to={`/product/${props.id}`}>
           <SearchOutlined />
+          </Link>
         </Icon>
         <Icon>
           <FavoriteBorderOutlined />
